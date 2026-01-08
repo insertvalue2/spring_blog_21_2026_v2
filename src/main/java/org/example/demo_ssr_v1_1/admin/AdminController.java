@@ -9,6 +9,9 @@ import org.example.demo_ssr_v1_1.user.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -52,7 +55,23 @@ public class AdminController {
     }
 
 
+    /**
+     * 환불 거절 처리
+     */
+    @PostMapping("/admin/refund/{id}/reject")
+    public String rejectRefund(@PathVariable Long id, @RequestParam String rejectReason) {
+        refundService.환불거절(id, rejectReason);
+        return "redirect:/admin/refund/list";
+    }
 
+    /**
+     * 환불 승인 처리
+     */
+    @PostMapping("/admin/refund/{id}/approve")
+    public String approveRefund(@PathVariable Long id) {
+        refundService.환불승인(id);
+        return "redirect:/admin/refund/list";
+    }
 
 }
 
